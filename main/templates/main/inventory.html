@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cards Emporium - Inventory</title>
+    <link rel="stylesheet" href="{% static 'css/inventorytempstyle.css' %}">
+</head>
+
+<body class="inventory-page">
+<div class="container">
+
+    <h1>Card Inventory</h1>
+
+    <a href="{% url 'home' %}">Back to Home</a>
+
+    <a class="add-button" href="{% url 'add_card' %}">
+        Add New Card
+    </a>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% if cards %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Rarity</th>
+                    <th>Set</th>
+                    <th>Card Number</th>
+                    <th>Condition</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for card in cards %}
+                    <tr>
+                        <td>{{ card.id }}</td>
+                        <td>{{ card.name }}</td>
+                        <td>{{ card.rarity }}</td>
+                        <td>{{ card.set_name }}</td>
+                        <td>{{ card.card_number }}</td>
+                        <td>{{ card.condition }}</td>
+                        <td>${{ card.price }}</td>
+                        <td>{{ card.quantity }}</td>
+
+                        <td>
+                            <a href="{% url 'edit_card' card.id %}">
+                                Edit
+                            </a>
+
+                            <a href="{% url 'delete_card' card.id %}">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>Your inventory is currently empty.</p>
+    {% endif %}
+
+</div>
+</body>
+</html>
